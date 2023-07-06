@@ -17,6 +17,11 @@ jobs:
       # checkout code
       - uses: actions/checkout@v3
 
+      # docker build (inside working directory -> my-angular-app)
+      - name: Build docker image
+        run: docker build -t my-app-kubernetes:latest ./app
+
+
       # setup node (typescript)
       #- uses: actions/setup-node@v3
       #  with:
@@ -39,8 +44,14 @@ jobs:
           export_default_credentials: true
 
       # configure gcr.io
-      #- name: "configure gcr.io"
-      #  run: gcloud auth configure-docker gcr.io
+      - name: "configure gcr.io"
+        run: gcloud auth configure-docker gcr.io
+
+      # push image GCR
+      - name: "push image in registry"
+        run: |
+          docker tag my-app-kubernetes:latest gcr.io/udemyiactraining/my-app-kubernetes:latest
+          docker push gcr.io/udemyiactraining/my-app-kubernetes:latest
 
       
       
