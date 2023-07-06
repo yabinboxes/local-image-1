@@ -9,9 +9,9 @@ jobs:
 
     runs-on: ubuntu-latest
     
-    #defaults:
-    #  run:
-    #    working-directory: gcp-ts-cloudrun
+    defaults:
+      run:
+        working-directory: app
 
     steps:
       # checkout code
@@ -19,7 +19,7 @@ jobs:
 
       # docker build (inside working directory -> my-angular-app)
       - name: Build docker image
-        run: docker build -t my-app-kubernetes:latest ./app
+        run: docker build -t my-app-kubernetes01:latest .
 
 
       # setup node (typescript)
@@ -50,8 +50,8 @@ jobs:
       # push image GCR
       - name: "push image in registry"
         run: |
-          docker tag my-app-kubernetes:latest gcr.io/prismatic-fact-334421/my-app-kubernetes:latest
-          docker push gcr.io/prismatic-fact-334421/my-app-kubernetes:latest
+          docker tag my-app-kubernetes01:latest gcr.io/prismatic-fact-334421/my-app-kubernetes01:latest
+          docker push gcr.io/prismatic-fact-334421/my-app-kubernetes01:latest
 
       
       
